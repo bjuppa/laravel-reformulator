@@ -7,6 +7,9 @@
     "request",
     "form",
     "input",
+    "trim",
+    "implode",
+    "explode",
     "datetime",
     "datetime-local",
     "laravel",
@@ -23,5 +26,10 @@
   "require": {
     "php": ">=5.5.9",
     "illuminate/http": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "FewAgency\\Reformulator\\": "src"
+    }
   }
 }
