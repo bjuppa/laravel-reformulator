@@ -18,12 +18,17 @@ trait ModifiesRequestInputTrait
         Request::merge() adds/overwrites an array of values to the input
         */
         if (strpos($key, '.')) {
-            list($key, $key_rest) = explode('.', $key, 2);
+            // The data to set is deeper than 1 level
+            // The final value of the input's first level key is expected to be an array
+            list($key_first, $key_rest) = explode('.', $key, 2);
+            // Pull out the input's existing value to modify it as an array
             $new_value = $request->input($key);
             Arr::set($new_value, $key_rest, $value);
         } else {
+            // The data to set is directly in the first level
+            $key_first = $key;
             $new_value = $value;
         }
-        $request->merge([$key => $new_value]);
+        $request->merge([$key_first => $new_value]);
     }
 }
