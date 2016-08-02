@@ -1,6 +1,17 @@
 {
-  "name": "fewagency/larvel-reformulator",
+  "name": "fewagency/laravel-reformulator",
   "description": "Laravel middleware to filter, sanitize and parse request input data.",
+  "keywords": [
+    "filter",
+    "sanitize",
+    "request",
+    "form",
+    "input",
+    "datetime",
+    "datetime-local",
+    "laravel",
+    "middleware"
+  ],
   "minimum-stability": "dev",
   "license": "MIT",
   "authors": [
@@ -10,6 +21,7 @@
     }
   ],
   "require": {
-    "php": ">=5.5.9"
+    "php": ">=5.5.9",
+    "illuminate/http": "^5.1"
   }
 }
