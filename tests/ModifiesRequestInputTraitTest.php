@@ -14,6 +14,8 @@ class ModifiesRequestInputTraitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('a value', $request->a);
     }
 
+    //TODO: test overwriting existing single-level value
+
     public function testDotSet()
     {
         $request = new \Illuminate\Http\Request();
@@ -24,4 +26,8 @@ class ModifiesRequestInputTraitTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $request->a);
         $this->assertEquals('a value', $request->input('a.b'));
     }
+
+    //TODO: test overwriting existing second-level value
+
+    //TODO: test setting a second-level value on a non-array (first set a to a string, then set a.b to another string)
 }
