@@ -1,8 +1,16 @@
 # Reformulator
 Laravel middleware to filter, sanitize, parse and transform request input data.
 
-## Installation
+## Installation & Configuration
 > composer require fewagency/laravel-reformulator
+
+Register the middleware you want to use in the `$routeMiddleware` array
+in `app/Http/Kernel.php` of your Laravel app: 
+```php
+'reformulator.trim' => \FewAgency\Reformulator\Middleware\TrimInput::class,
+'reformulator.filter' => \FewAgency\Reformulator\Middleware\FilterInput::class,
+```
+Read more in the [Laravel docs for middleware](https://laravel.com/docs/master/middleware#registering-middleware).
 
 ## Principles
 Some would argue that it's not a good idea to mutate the Request object
