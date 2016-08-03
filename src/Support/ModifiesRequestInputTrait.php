@@ -23,6 +23,9 @@ trait ModifiesRequestInputTrait
             list($key_first, $key_rest) = explode('.', $key, 2);
             // Pull out the input's existing value to modify it as an array
             $new_value = $request->input($key_first);
+            if (!is_array($new_value)) {
+                $new_value = [];
+            }
             Arr::set($new_value, $key_rest, $value);
         } else {
             // The data to set is in the first level

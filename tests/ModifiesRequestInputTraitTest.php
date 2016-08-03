@@ -57,5 +57,19 @@ class ModifiesRequestInputTraitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('a second value', $request->input('a.c'));
     }
 
-    //TODO: test setting a second-level value on a non-array (first set a to a string, then set a.b to another string)
+    public function testOverwritingNonArray()
+    {
+        $request = new \Illuminate\Http\Request();
+
+        $o = new ModifiesRequestInputTester();
+        $o->testSetRequestInput($request, 'a', 'a value');
+
+        $this->assertInternalType('string', $request->a);
+
+        $o->testSetRequestInput($request, 'a.b', 'another value');
+
+        $this->assertInternalType('array', $request->a);
+        $this->assertCount(1, $request->a);
+        $this->assertEquals('another value', $request->input('a.b'));
+    }
 }

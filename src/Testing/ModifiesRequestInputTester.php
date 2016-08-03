@@ -12,6 +12,4 @@ class ModifiesRequestInputTester
     {
         return $this->setRequestInput($request, $key, $value);
     }
-
-
 }
