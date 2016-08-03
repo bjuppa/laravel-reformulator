@@ -30,4 +30,31 @@ class FilterInputTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(' test ', $result_request->b);
     }
 
+    public function testTrimArray()
+    {
+        $middleware = new \FewAgency\Reformulator\Middleware\FilterInput();
+        $request = new \Illuminate\Http\Request();
+        $request['a'] = [' 0 ',' 1 '];
+
+        $result_request = $middleware->handle($request, function ($request) {
+            return $request;
+        }, 'trim', 'a');
+
+        $this->assertEquals('0', $result_request->a[0]);
+        $this->assertEquals('1', $result_request->a[1]);
+    }
+
+    public function testTrimSingleValueInArray()
+    {
+        $middleware = new \FewAgency\Reformulator\Middleware\FilterInput();
+        $request = new \Illuminate\Http\Request();
+        $request['a'] = [' 0 ',' 1 '];
+
+        $result_request = $middleware->handle($request, function ($request) {
+            return $request;
+        }, 'trim', 'a.0');
+
+        $this->assertEquals('0', $result_request->a[0]);
+        $this->assertEquals(' 1 ', $result_request->a[1]);
+    }
 }
