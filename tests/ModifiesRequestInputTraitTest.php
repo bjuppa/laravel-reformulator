@@ -72,4 +72,16 @@ class ModifiesRequestInputTraitTest extends PHPUnit_Framework_TestCase
         $this->assertCount(1, $request->a);
         $this->assertEquals('another value', $request->input('a.b'));
     }
+
+    public function testDotOverwritingNonArray()
+    {
+        $request = new \Illuminate\Http\Request();
+
+        $o = new ModifiesRequestInputTester();
+        $o->testSetRequestInput($request, 'a.b', 'a value');
+
+        $o->testSetRequestInput($request, 'a.b.c', 'another value');
+
+        $this->assertEquals('another value', $request->input('a.b.c'));
+    }
 }
