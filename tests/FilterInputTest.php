@@ -34,7 +34,7 @@ class FilterInputTest extends PHPUnit_Framework_TestCase
     {
         $middleware = new \FewAgency\Reformulator\Middleware\FilterInput();
         $request = new \Illuminate\Http\Request();
-        $request['a'] = [' 0 ',' 1 '];
+        $request['a'] = [' 0 ', ' 1 '];
 
         $result_request = $middleware->handle($request, function ($request) {
             return $request;
@@ -48,7 +48,7 @@ class FilterInputTest extends PHPUnit_Framework_TestCase
     {
         $middleware = new \FewAgency\Reformulator\Middleware\FilterInput();
         $request = new \Illuminate\Http\Request();
-        $request['a'] = [' 0 ',' 1 '];
+        $request['a'] = [' 0 ', ' 1 '];
 
         $result_request = $middleware->handle($request, function ($request) {
             return $request;
@@ -71,5 +71,35 @@ class FilterInputTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('test A', $result_request->a);
         $this->assertEquals('test B', $result_request->b);
+    }
+
+    public function testTrimAllFields()
+    {
+        $middleware = new \FewAgency\Reformulator\Middleware\FilterInput();
+        $request = new \Illuminate\Http\Request();
+        $request['a'] = ' test A ';
+        $request['b'] = ' test B ';
+
+        $result_request = $middleware->handle($request, function ($request) {
+            return $request;
+        }, 'trim');
+
+        $this->assertEquals('test A', $result_request->a);
+        $this->assertEquals('test B', $result_request->b);
+    }
+
+    public function testClosure()
+    {
+        $middleware = new \FewAgency\Reformulator\Middleware\FilterInput();
+        $request = new \Illuminate\Http\Request();
+        $request['a'] = 'Test';
+
+        $result_request = $middleware->handle($request, function ($request) {
+            return $request;
+        }, function ($input) {
+            return $input . $input;
+        });
+
+        $this->assertEquals('TestTest', $result_request->a);
     }
 }
