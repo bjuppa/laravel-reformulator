@@ -12,4 +12,9 @@ class ModifiesRequestInputTester
     {
         return $this->setRequestInput($request, $key, $value);
     }
+
+    public function testUnsetRequestInput(Request $request, $key)
+    {
+        return $this->unsetRequestInput($request, $key);
+    }
 }

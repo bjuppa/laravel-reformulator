@@ -14,7 +14,7 @@ use Illuminate\Support\Arr;
 trait ModifiesRequestInputTrait
 {
     /**
-     * Replaces a single item in a given Request’s input using dot-notation
+     * Replace a single item in a given Request’s input using dot-notation
      * @param Request $request to modify
      * @param string $key in dot-notation
      * @param mixed $value to set
@@ -44,5 +44,29 @@ trait ModifiesRequestInputTrait
          * But it doesn't work for the second- or higher dot-levels because of the
          * non-reference return value of ArrayAccess::offsetGet()
          */
+    }
+
+    /**
+     * Unset a single item in a given Request’s input using dot-notation
+     * @param Request $request to modify
+     * @param string $key in dot-notation
+     */
+    protected function unsetRequestInput(Request $request, $key)
+    {
+        if (strpos($key, '.')) {
+            // The data to unset is deeper than 1 level down
+            // meaning the final value of the input's first level key is expected to be an array
+            list($first_level_key, $key_rest) = explode('.', $key, 2);
+            // Pull out the input's existing first level value to modify it as an array
+            $first_level_value = $request->input($first_level_key); //Request::input() pulls from all input data using dot-notation (ArrayAccess on Request would also pull out files which is undesirable here).
+            if (!is_array($first_level_value)) {
+                $first_level_value = [];
+            }
+            Arr::forget($first_level_value, $key_rest);
+            $request->merge([$first_level_key => $first_level_value]); // The only current alternatives for modifying Request input data are merge() and replace(), the latter replacing the whole input data.
+        } else {
+            // The data to unset is in the first level
+            unset($request[$key]);
+        }
     }
 }

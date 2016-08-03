@@ -84,4 +84,31 @@ class ModifiesRequestInputTraitTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('another value', $request->input('a.b.c'));
     }
+
+    public function testUnset()
+    {
+        $request = new \Illuminate\Http\Request();
+        $request->merge(['a' => 'a']);
+
+        $this->assertEquals('a', $request->input('a'));
+
+        $o = new ModifiesRequestInputTester();
+        $o->testUnsetRequestInput($request, 'a');
+
+        $this->assertNull($request->input('a'));
+    }
+
+    public function testDotUnset()
+    {
+        $request = new \Illuminate\Http\Request();
+        $request->merge(['a' => ['b' => 'c']]);
+
+        $this->assertEquals('c', $request->input('a.b'));
+
+        $o = new ModifiesRequestInputTester();
+        $o->testUnsetRequestInput($request, 'a.b');
+
+        $this->assertNull($request->input('a.b'));
+        $this->assertInternalType('array', $request->input('a'));
+    }
 }
