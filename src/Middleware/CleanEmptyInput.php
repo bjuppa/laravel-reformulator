@@ -45,11 +45,17 @@ class CleanEmptyInput
         return $next($request);
     }
 
+    /**
+     * Support method to recursively clean request input from empty strings
+     * @param Request $request to modify
+     * @param array $key_parts split key parts for the current level
+     * @param mixed $value for the current level to check
+     */
     protected function cleanEmptyRecursive(Request $request, array $key_parts, $value)
     {
         if (is_array($value)) {
-            foreach ($value as $last_level_key => $last_level_value) {
-                $this->cleanEmptyRecursive($request, array_merge($key_parts, [$last_level_key]), $last_level_value);
+            foreach ($value as $next_level_key => $next_level_value) {
+                $this->cleanEmptyRecursive($request, array_merge($key_parts, [$next_level_key]), $next_level_value);
             }
         } elseif (!strlen($value)) {
             $this->unsetRequestInput($request, implode('.', $key_parts));

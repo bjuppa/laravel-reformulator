@@ -46,6 +46,7 @@ class CleanEmptyInputTest extends PHPUnit_Framework_TestCase
         }, 'a');
 
         $this->assertNull($result_request->input('a.b'));
+        $this->assertNotNull($result_request->input('a.c'));
         $this->assertEquals(0, $result_request->input('a.c'));
     }
 
@@ -65,5 +66,21 @@ class CleanEmptyInputTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $result_request->input('a.c'));
         $this->assertNull($result_request->input('a.b'));
         $this->assertNull($result_request->input('a.c.d'));
+    }
+
+    public function testCleanAllFields()
+    {
+        $middleware = new \FewAgency\Reformulator\Middleware\CleanEmptyInput();
+        $request = new \Illuminate\Http\Request();
+        $request->merge(['a' => ['b' => '', 'c' => 0], 'd' => 1, 'e' => '']);
+
+        $result_request = $middleware->handle($request, function ($request) {
+            return $request;
+        });
+
+        $this->assertNull($result_request->input('a.b'));
+        $this->assertNull($result_request->input('e'));
+        $this->assertEquals(0, $result_request->input('a.c'));
+        $this->assertEquals(1, $result_request->d);
     }
 }
