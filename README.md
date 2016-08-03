@@ -1,5 +1,5 @@
 # Reformulator
-Laravel middleware to filter, sanitize and parse request input data.
+Laravel middleware to filter, sanitize, parse and transform request input data.
 
 ## Installation
 > composer require fewagency/laravel-reformulator
