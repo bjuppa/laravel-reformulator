@@ -22,10 +22,10 @@ trait ModifiesRequestInputTrait
             // The final value of the input's first level key is expected to be an array
             list($key_first, $key_rest) = explode('.', $key, 2);
             // Pull out the input's existing value to modify it as an array
-            $new_value = $request->input($key);
+            $new_value = $request->input($key_first);
             Arr::set($new_value, $key_rest, $value);
         } else {
-            // The data to set is directly in the first level
+            // The data to set is in the first level
             $key_first = $key;
             $new_value = $value;
         }
