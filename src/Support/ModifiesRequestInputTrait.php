@@ -4,34 +4,45 @@ namespace FewAgency\Reformulator\Support;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
+/**
+ * Class ModifiesRequestInputTrait
+ * @package FewAgency\Reformulator\Support
+ *
+ * Adds ability to modify input values in Illuminate\Http\Request objects.
+ * This trait is intended to be used in Laravel middleware, or Illuminate\Foundation\Http\FormRequest.
+ */
 trait ModifiesRequestInputTrait
 {
-    /* Replaces a single item in a given Request’s input using dot-notation (to be used by Middleware or FormRequest) */
+    /**
+     * Replaces a single item in a given Request’s input using dot-notation
+     * @param Request $request to modify
+     * @param string $key in dot-notation
+     * @param mixed $value to set
+     */
     protected function setRequestInput(Request $request, $key, $value)
     {
-        /*
-         When setting input values in a Request using dot-notation, always pull out the full array of the first dot-keyed-part, then Arr::set() using the rest of the dot-keyed-parts on that sub-array and merge that array back in using Request::merge() on the first dot-keyed-part.
-
-        Request::offsetGet() gets from all input data + files using dot-notation - don’t use this!
-        Request::input() gets from all input data using dot-notation - use this!
-        …but they both can only find a full string key OR dot notated key
-        Request::merge() adds/overwrites an array of values to the input
-        */
         if (strpos($key, '.')) {
-            // The data to set is deeper than 1 level
-            // The final value of the input's first level key is expected to be an array
-            list($key_first, $key_rest) = explode('.', $key, 2);
-            // Pull out the input's existing value to modify it as an array
-            $new_value = $request->input($key_first);
-            if (!is_array($new_value)) {
-                $new_value = [];
+            // The data to set is deeper than 1 level down
+            // meaning the final value of the input's first level key is expected to be an array
+            list($first_level_key, $key_rest) = explode('.', $key, 2);
+            // Pull out the input's existing first level value to modify it as an array
+            $first_level_value = $request->input($first_level_key); //Request::input() pulls from all input data using dot-notation (ArrayAccess on Request would also pull out files which is undesirable here).
+            if (!is_array($first_level_value)) {
+                $first_level_value = [];
             }
-            Arr::set($new_value, $key_rest, $value);
+            Arr::set($first_level_value, $key_rest, $value);
         } else {
             // The data to set is in the first level
-            $key_first = $key;
-            $new_value = $value;
+            $first_level_key = $key;
+            $first_level_value = $value;
         }
-        $request->merge([$key_first => $new_value]);
+        $request->merge([$first_level_key => $first_level_value]); // The only current alternatives for modifying Request input data are merge() and replace(), the latter replacing the whole input data.
+
+        /*
+         * It could look tempting to skip all of the above code and just
+         * Arr::set() on the Request object utilizing it's ArrayAccess...
+         * But it doesn't work for the second- or higher dot-levels because of the
+         * non-reference return value of ArrayAccess::offsetGet()
+         */
     }
 }
