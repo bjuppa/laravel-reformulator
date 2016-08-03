@@ -1,6 +1,6 @@
 {
   "name": "fewagency/laravel-reformulator",
-  "description": "Laravel middleware to filter, sanitize, parse and transform request input data..",
+  "description": "Laravel middleware to filter, sanitize, parse and transform request input data.",
   "keywords": [
     "filter",
     "sanitize",
