@@ -4,7 +4,6 @@ namespace FewAgency\Reformulator\Middleware;
 
 use Closure;
 use FewAgency\Reformulator\Support\ModifiesRequestInputTrait;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /*
