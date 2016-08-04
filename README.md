@@ -8,7 +8,7 @@ Register the middleware you want to use in the `$routeMiddleware` array
 in `app/Http/Kernel.php` of your Laravel app: 
 ```php
 'reformulator.trim' => \FewAgency\Reformulator\Middleware\TrimInput::class,
-'reformulator.clean_empty' => \FewAgency\Reformulator\Middleware\CleanEmptyInput::class,
+'reformulator.remove_empty' => \FewAgency\Reformulator\Middleware\RemoveEmptyInput::class,
 'reformulator.filter' => \FewAgency\Reformulator\Middleware\FilterInput::class,
 ```
 Read more in the [Laravel docs for middleware](https://laravel.com/docs/middleware#registering-middleware).

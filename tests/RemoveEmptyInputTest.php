@@ -1,10 +1,10 @@
 <?php
 
-class CleanEmptyInputTest extends PHPUnit_Framework_TestCase
+class RemoveEmptyInputTest extends PHPUnit_Framework_TestCase
 {
     public function testFirstLevelClean()
     {
-        $middleware = new \FewAgency\Reformulator\Middleware\CleanEmptyInput();
+        $middleware = new \FewAgency\Reformulator\Middleware\RemoveEmptyInput();
         $request = new \Illuminate\Http\Request();
         $request->merge(['a' => '', 'b' => 0]);
 
@@ -20,7 +20,7 @@ class CleanEmptyInputTest extends PHPUnit_Framework_TestCase
 
     public function testSecondLevelClean()
     {
-        $middleware = new \FewAgency\Reformulator\Middleware\CleanEmptyInput();
+        $middleware = new \FewAgency\Reformulator\Middleware\RemoveEmptyInput();
         $request = new \Illuminate\Http\Request();
         $request->merge(['a' => ['b' => '']]);
 
@@ -35,7 +35,7 @@ class CleanEmptyInputTest extends PHPUnit_Framework_TestCase
 
     public function testArrayClean()
     {
-        $middleware = new \FewAgency\Reformulator\Middleware\CleanEmptyInput();
+        $middleware = new \FewAgency\Reformulator\Middleware\RemoveEmptyInput();
         $request = new \Illuminate\Http\Request();
         $request->merge(['a' => ['b' => '', 'c' => 0]]);
 
@@ -52,7 +52,7 @@ class CleanEmptyInputTest extends PHPUnit_Framework_TestCase
 
     public function testRecursiveArrayClean()
     {
-        $middleware = new \FewAgency\Reformulator\Middleware\CleanEmptyInput();
+        $middleware = new \FewAgency\Reformulator\Middleware\RemoveEmptyInput();
         $request = new \Illuminate\Http\Request();
         $request->merge(['a' => ['b' => '', 'c' => ['d' => '']]]);
 
@@ -70,7 +70,7 @@ class CleanEmptyInputTest extends PHPUnit_Framework_TestCase
 
     public function testCleanAllFields()
     {
-        $middleware = new \FewAgency\Reformulator\Middleware\CleanEmptyInput();
+        $middleware = new \FewAgency\Reformulator\Middleware\RemoveEmptyInput();
         $request = new \Illuminate\Http\Request();
         $request->merge(['a' => ['b' => '', 'c' => 0], 'd' => 1, 'e' => '']);
 

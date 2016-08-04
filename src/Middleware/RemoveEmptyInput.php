@@ -7,20 +7,20 @@ use FewAgency\Reformulator\Support\ModifiesRequestInputTrait;
 use Illuminate\Http\Request;
 
 /*
- * Clean empty string data from the request - keeping strings of 0.
+ * Recursively clean empty strings from request inputs (keeping strings of 0).
  * Define fields to clean out with : and comma-separated list of fieldnames (dot-notated).
- * Arrays will be cleaned recursively.
+ * Arrays will be cleaned recursively, but empty arrays will be kept.
  * If no fieldnames are supplied, all empty input data will be removed from request.
  *
  * Example for route definition:
- * 'middleware' => 'reformulator.clean:name,address.line2,nicknames'
+ * 'middleware' => 'reformulator.remove_empty:name,address.line2,nicknames'
  *
  * Example for controller:
- * $this->middleware('reformulator.clean:name,address.line2,nicknames');
+ * $this->middleware('reformulator.remove_empty:name,address.line2,nicknames');
  *
  */
 
-class CleanEmptyInput
+class RemoveEmptyInput
 {
     use ModifiesRequestInputTrait;
 
@@ -39,7 +39,7 @@ class CleanEmptyInput
             $field_names = array_keys($request->input());
         }
         foreach ($field_names as $field_name) {
-            $this->cleanEmptyRecursive($request, explode('.', $field_name), $request->input($field_name));
+            $this->removeEmptyRecursive($request, explode('.', $field_name), $request->input($field_name));
         }
 
         return $next($request);
@@ -51,11 +51,11 @@ class CleanEmptyInput
      * @param array $key_parts split key parts for the current level
      * @param mixed $value for the current level to check
      */
-    protected function cleanEmptyRecursive(Request $request, array $key_parts, $value)
+    protected function removeEmptyRecursive(Request $request, array $key_parts, $value)
     {
         if (is_array($value)) {
             foreach ($value as $next_level_key => $next_level_value) {
-                $this->cleanEmptyRecursive($request, array_merge($key_parts, [$next_level_key]), $next_level_value);
+                $this->removeEmptyRecursive($request, array_merge($key_parts, [$next_level_key]), $next_level_value);
             }
         } elseif (!strlen($value)) {
             $this->unsetRequestInput($request, implode('.', $key_parts));
