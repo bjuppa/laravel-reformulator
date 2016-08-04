@@ -8,7 +8,7 @@ class RemoveEmptyInputTest extends PHPUnit_Framework_TestCase
         $request = new \Illuminate\Http\Request();
         $request->merge(['a' => '', 'b' => 0]);
 
-        $this->assertEquals('', $request->input('a'));
+        $this->assertSame('', $request->input('a'));
 
         $result_request = $middleware->handle($request, function ($request) {
             return $request;
@@ -24,7 +24,7 @@ class RemoveEmptyInputTest extends PHPUnit_Framework_TestCase
         $request = new \Illuminate\Http\Request();
         $request->merge(['a' => ['b' => '']]);
 
-        $this->assertEquals('', $request->input('a.b'));
+        $this->assertSame('', $request->input('a.b'));
 
         $result_request = $middleware->handle($request, function ($request) {
             return $request;
@@ -39,7 +39,7 @@ class RemoveEmptyInputTest extends PHPUnit_Framework_TestCase
         $request = new \Illuminate\Http\Request();
         $request->merge(['a' => ['b' => '', 'c' => 0]]);
 
-        $this->assertEquals('', $request->input('a.b'));
+        $this->assertSame('', $request->input('a.b'));
 
         $result_request = $middleware->handle($request, function ($request) {
             return $request;
@@ -56,8 +56,8 @@ class RemoveEmptyInputTest extends PHPUnit_Framework_TestCase
         $request = new \Illuminate\Http\Request();
         $request->merge(['a' => ['b' => '', 'c' => ['d' => '']]]);
 
-        $this->assertEquals('', $request->input('a.b'));
-        $this->assertEquals('', $request->input('a.c.d'));
+        $this->assertSame('', $request->input('a.b'));
+        $this->assertSame('', $request->input('a.c.d'));
 
         $result_request = $middleware->handle($request, function ($request) {
             return $request;
