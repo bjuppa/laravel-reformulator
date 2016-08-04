@@ -42,8 +42,10 @@ class DatetimeLocalInput
         }
 
         try {
-            $carbon = Carbon::parse($request->input($source_field), $timezone)->timezone($timezone);
-            $this->setRequestInput($request, $target_field, $carbon->format('Y-m-d\TH:i:s'));
+            if ($request->has($source_field)) {
+                $carbon = Carbon::parse($request->input($source_field), $timezone)->timezone($timezone);
+                $this->setRequestInput($request, $target_field, $carbon->format('Y-m-d\TH:i:s'));
+            }
         } catch (\Exception $e) {
             // The parse failed
             // Do nothing to the input

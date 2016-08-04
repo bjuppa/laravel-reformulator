@@ -30,7 +30,7 @@ or substitutes a shortcoming in the transmission method
 (e.g. it's not possible to submit an empty array)
 - The transformations absolutely can't go against the user's intention
 (as we're not giving the user a chance to approve the change)
-- The transformations doesn't break repopulating the view (e.g. form)
+- The transformations doesn't break repopulating the view (i.e. form)
 
 ## Authors
 I, Björn Nilsved, work at the largest communication agency in southern Sweden.
