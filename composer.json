@@ -16,7 +16,7 @@
     "laravel",
     "middleware"
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
     {
