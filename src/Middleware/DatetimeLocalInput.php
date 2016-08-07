@@ -4,6 +4,7 @@ namespace FewAgency\Reformulator\Middleware;
 
 use Carbon\Carbon;
 use Closure;
+use FewAgency\Carbonator\Carbonator;
 use FewAgency\Reformulator\Support\ModifiesRequestInputTrait;
 
 /*
@@ -41,14 +42,10 @@ class DatetimeLocalInput
             $source_field = $target_field;
         }
 
-        try {
-            if ($request->has($source_field)) {
-                $carbon = Carbon::parse($request->input($source_field), $timezone)->timezone($timezone);
-                $this->setRequestInput($request, $target_field, $carbon->format('Y-m-d\TH:i:s'));
+        if ($request->has($source_field)) {
+            if ($string = Carbonator::parseToDatetimeLocal($request->input($source_field), $timezone)) {
+                $this->setRequestInput($request, $target_field, $string);
             }
-        } catch (\Exception $e) {
-            // The parse failed
-            // Do nothing to the input
         }
 
         return $next($request);
