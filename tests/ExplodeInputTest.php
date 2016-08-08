@@ -6,13 +6,13 @@ class ExplodeInputTest extends PHPUnit_Framework_TestCase
     {
         $middleware = new \FewAgency\Reformulator\Middleware\ExplodeInput();
         $request = new \Illuminate\Http\Request();
-        $request->merge(['a' => "1 2\n3,4"]);
+        $request->merge(['a' => "1, 2\n \t 3,4 ,  5, , Art director"]);
 
         $result_request = $middleware->handle($request, function ($request) {
             return $request;
         }, 'a');
 
-        $this->assertEquals(['1', '2', '3', '4'], $result_request->a);
+        $this->assertEquals(['1', '2', '3', '4', '5', 'Art director'], $result_request->a);
     }
 
     public function testExplodeRegexpChar()

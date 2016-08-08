@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
  * The field to read from is the second parameter (will use the target field if not set)
  * The third parameter is the pattern to explode by.
  * Specify a regexp pattern by enclosing it in slashes.
- * The pattern defaults to any combo of comma/space/newline characters if omitted.
+ * The pattern, if omitted, defaults to split at any combo of comma/tab/newline (with surrounding spaces), but not on spaces alone.
  *
  * Example for route definition:
  * 'middleware' => 'reformulator.explode:path_segments,path,/'
@@ -36,7 +36,7 @@ class ExplodeInput
      * @param  string $pattern
      * @return mixed
      */
-    public function handle($request, Closure $next, $target_field, $source_field = null, $pattern = '/[\s,]+/')
+    public function handle($request, Closure $next, $target_field, $source_field = null, $pattern = '/\s*([\t\v]|\s*,\s*)+\s*/')
     {
         //Commas can’t be used by \Illuminate\Pipeline\Pipeline::parsePipeString
         $pattern = str_replace('COMMA', ',', $pattern);
