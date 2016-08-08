@@ -10,7 +10,7 @@ use FewAgency\Reformulator\Support\ModifiesRequestInputTrait;
 /*
  * Parse and set a datetime-local value in request, interpreting in a timezone.
  * The field to set is the first parameter (dot-notated).
- * The field to read from is the second parameter (will use the target field if not set)
+ * The field to read from is the second parameter (dot-notated, will use the target field if not set)
  * The third parameter is the timezone to interpret in (useful for relative dates like 'next tuesday 12:00').
  * The timezone defaults to the Laravel app's timezone setting if omitted.
  *
@@ -18,7 +18,7 @@ use FewAgency\Reformulator\Support\ModifiesRequestInputTrait;
  * 'middleware' => 'reformulator.datetime-local:booking_start'
  *
  * Example for controller:
- * $this->middleware('reformulator.datetime-local:booking_start,booking_start_parts,Europe/Stockholm');
+ * $this->middleware('reformulator.datetime-local:booking_start_local,booking_start_text,Europe/Stockholm');
  *
  */
 
@@ -43,7 +43,7 @@ class DatetimeLocalInput
         }
 
         if ($request->has($source_field)) {
-            if ($string = Carbonator::parseToDatetimeLocal($request->input($source_field), $timezone)) {
+            if ($string = Carbonator::parseToDatetimeLocal($request->input($source_field), $timezone, $timezone)) {
                 $this->setRequestInput($request, $target_field, $string);
             }
         }
