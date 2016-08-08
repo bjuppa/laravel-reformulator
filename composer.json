@@ -27,7 +27,7 @@
   "require": {
     "php": ">=5.5.9",
     "illuminate/http": "^5.1",
-    "fewagency/carbonator": "dev-master"
+    "fewagency/carbonator": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8"
