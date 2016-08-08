@@ -8,6 +8,7 @@ Register each middleware you want to use in the `$routeMiddleware` array
 in `app/Http/Kernel.php` of your Laravel app: 
 ```php
 'reformulator.trim' => \FewAgency\Reformulator\Middleware\TrimInput::class,
+'reformulator.strip_repeats' => \FewAgency\Reformulator\Middleware\StripRepeatNonWordCharsFromInput::class,
 'reformulator.filter' => \FewAgency\Reformulator\Middleware\FilterInput::class,
 
 'reformulator.remove_empty' => \FewAgency\Reformulator\Middleware\RemoveEmptyInput::class,
