@@ -18,6 +18,7 @@ in `app/Http/Kernel.php` of your Laravel app:
 'reformulator.explode' => \FewAgency\Reformulator\Middleware\ExplodeInput::class,
 
 'reformulator.datetime-local' => \FewAgency\Reformulator\Middleware\DatetimeLocalInput::class,
+'reformulator.datetime' => \FewAgency\Reformulator\Middleware\DatetimeInput::class,
 ```
 Read more in the [Laravel docs for middleware](https://laravel.com/docs/middleware#registering-middleware).
 
