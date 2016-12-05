@@ -20,6 +20,10 @@ in `app/Http/Kernel.php` of your Laravel app:
 'reformulator.datetime-local' => \FewAgency\Reformulator\Middleware\DatetimeLocalInput::class,
 'reformulator.datetime' => \FewAgency\Reformulator\Middleware\DatetimeInput::class,
 ```
+
+Usage and parameters to each middleware is currently documented in [each of the classes](src/Middleware)
+but in general, most of them take a list of field names as middleware parameters.
+
 Read more in the [Laravel docs for middleware](https://laravel.com/docs/middleware#registering-middleware).
 
 ## Principles
