@@ -23,7 +23,7 @@ in `app/Http/Kernel.php` of your Laravel app:
 Read more in the [Laravel docs for middleware](https://laravel.com/docs/middleware#registering-middleware).
 
 ## Principles
-Some would argue that it's not a good idea to mutate the `Request` object, for example see
+Some would argue that it's **not** a good idea to mutate the `Request` object, for examples see
 [GrahamCampbell's comments on Laravel issue 10725](https://github.com/laravel/framework/issues/10725).
 
 My opinion is that it makes sense to modify data in the request when:
@@ -33,6 +33,12 @@ or substitutes a shortcoming in the transmission method
 - The transformations absolutely can't go against the user's intention
 (as we're not giving the user a chance to approve the change)
 - The transformations doesn't break repopulating the view (i.e. form)
+  
+Listen to
+[Full Stack Radio ep. 54 with Jonathan Reinink and host Adam Wathan](http://www.fullstackradio.com/54)
+for an interesting conversation about form handling.
+Adam then went on and created
+[a gist of macros to add filtering functions to Laravel `Request`s](https://gist.github.com/adamwathan/610a9818382900daac6d6ecdf75a109b).
 
 ## Authors
 I, Björn Nilsved, work at the largest communication agency in southern Sweden.
