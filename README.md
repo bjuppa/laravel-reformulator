@@ -1,6 +1,15 @@
 # Reformulator
 Laravel middleware to filter, sanitize, parse and transform request input data.
 
+**Note:** I'd recommend using
+[Laravel's `FormRequest`s](https://laravel.com/docs/validation#form-request-validation)
+instead of this package's middleware if you wish to manipulate the incomming request before validation and other processing.
+Your intentions will be easier to understand if manipulation is done in your customized
+[`prepareForValidation()` method](https://github.com/laravel/framework/blob/master/src/Illuminate/Validation/ValidatesWhenResolvedTrait.php#L30-L38)
+of your `FormRequest` instead of hidden away in a middleware declared who knows where.
+
+Also, since Laravel `5.4` there are already middleware for trimming strings and converting empty strings to `null` applied by default, so this package has been superfluous for quite some time.
+
 ## Installation & Configuration
 > composer require fewagency/laravel-reformulator
 
